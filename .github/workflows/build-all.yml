@@ -1,29 +1,38 @@
 name: build-all
+on: push
 
-on:
-  workflow_dispatch:
-    inputs:
-      git-address:
-        description: 'git-address'
-        required: true
-        default: 'https://github.com/buildroot/buildroot.git'
-      branches-tags:
-        description: 'branches-tags'
-        required: true
-        # default: '2018.08.2'
-        default: '2023.05.x'
-      board:
-        description: 'board'
-        required: true
-        default: 'raspberrypi4'
-      custom-config:
-        description: 'custom-config'
-        required: false
-        default: 'raspberrypi4_defconfig'
-      build-with:
-        description: 'build-with'
-        required: false
-        default: ''
+# on:
+#   workflow_dispatch:
+#     inputs:
+#       git-address:
+#         description: 'git-address'
+#         required: true
+#         default: 'https://github.com/buildroot/buildroot.git'
+#       branches-tags:
+#         description: 'branches-tags'
+#         required: true
+#         # default: '2018.08.2'
+#         default: '2023.05.x'
+#       board:
+#         description: 'board'
+#         required: true
+#         default: 'raspberrypi4'
+#       custom-config:
+#         description: 'custom-config'
+#         required: false
+#         default: 'raspberrypi4_defconfig'
+#       build-with:
+#         description: 'build-with'
+#         required: false
+#         default: ''
+
+env:
+  # BUILDROOT_GIT_REPO: ${{ github.event.inputs.git-address }}
+  BUILDROOT_GIT_REPO: 'https://github.com/buildroot/buildroot.git'
+  BUILDROOT_TAG: '2023.05.x'
+  # BUILDROOT_TAG: ${{ github.event.inputs.branches-tags }}
+  BUILDROOT_BOARD: 'raspberrypi4'
+  BUILDROOT_DEFCONFIG: 'raspberrypi4_defconfig'
 
 jobs:
   build:
@@ -50,13 +59,13 @@ jobs:
         with:
           path: |
             /opt/buildroot
-          key: buildroot-${{ github.event.inputs.branches-tags }}
+          key: buildroot-${{ env.BUILDROOT_TAG }}
           restore-keys: |
-            buildroot-${{ github.event.inputs.branches-tags }}
+            buildroot-${{ env.BUILDROOT_TAG }}
 
       - name: Get buildroot source
         run: |
-          git clone ${{github.event.inputs.git-address}} /opt/buildroot
+          git clone $BUILDROOT_GIT_REPO /opt/buildroot
           cd /opt/buildroot
 
       - name: Install packages
@@ -74,18 +83,18 @@ jobs:
         run: |
           mkdir /opt/firmware
           cd /opt/buildroot
-          git checkout ${{github.event.inputs.branches-tags}}
-          git pull origin ${{github.event.inputs.branches-tags}}
+          git checkout $BUILDROOT_TAG
+          git pull origin $BUILDROOT_TAG
 
-          if [ ${{github.event.inputs.custom-config}}!='' ]; then cp -f /home/runner/work/buildroot-actions/buildroot-actions/configs/${{github.event.inputs.custom-config}} configs/; fi
+          # if [ "x$BUILDROOT_CUSTOM_CONFIG" == 'x' ]; then cp -f /home/runner/work/buildroot-actions/buildroot-actions/configs/${{env.BUILDROOT_CUSTOM_CONFIG}} configs/; fi
 
           echo '---start make---'
-          make ${{github.event.inputs.board}}_defconfig
+          make $BUILDROOT_DEFCONFIG
           make
           cp -r /opt/buildroot/output/images /opt/firmware
 
-      - name : Upload buildroot-${{github.event.inputs.branches-tags}}-${{github.event.inputs.board}}
+      - name : Upload buildroot-${{env.BUILDROOT_TAG}}-${{env.BUILDROOT_BOARD}}
         uses: actions/upload-artifact@master
         with:
-          name: buildroot-${{github.event.inputs.branches-tags}}-${{github.event.inputs.board}}
+          name: buildroot-${{env.BUILDROOT_TAG}}-${{env.BUILDROOT_BOARD}}
           path: /opt/firmware

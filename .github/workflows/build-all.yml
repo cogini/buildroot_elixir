@@ -1,0 +1,72 @@
+name: build-all
+
+on:
+  workflow_dispatch:
+    inputs:
+      git-address:
+        description: 'git-address'
+        required: true
+        default: 'https://github.com/buildroot/buildroot.git'
+      branches-tags:
+        description: 'branches-tags'
+        required: true
+        # default: '2018.08.2'
+        default: '2023.05.x'
+      board:
+        description: 'board'
+        required: true
+        default: 'raspberrypi4'
+      custom-config:
+        description: 'custom-config'
+        required: false
+        default: 'raspberrypi4_defconfig'
+      build-with:
+        description: 'build-with'
+        required: false
+        default: ''
+
+jobs:
+  build:
+    # runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
+    steps:
+      - name: Dump event
+        run: cat "$GITHUB_EVENT_PATH"
+
+      - name: Cancel previous runs in progress
+        uses: styfle/cancel-workflow-action@0.11.0
+        with:
+          access_token: ${{ github.token }}
+      - name: Check out source
+        uses: actions/checkout@v3
+
+      - name: Get buildroot source
+        run: |
+          git clone ${{github.event.inputs.git-address}} /opt/buildroot
+          cd /opt/buildroot
+
+      - name: Install packages
+        run: |
+          sudo apt-get update
+          sudo apt-get upgrade
+          sudo apt-get install -y make gcc g++ unzip git bc python device-tree-compiler mtd-utils
+
+      - name: Bulid
+        run: |
+          mkdir /opt/firmware
+          cd /opt/buildroot
+          git checkout ${{github.event.inputs.branches-tags}}
+          git pull origin ${{github.event.inputs.branches-tags}}
+
+          if [ ${{github.event.inputs.custom-config}}!='' ]; then cp -f /home/runner/work/buildroot-actions/buildroot-actions/configs/${{github.event.inputs.custom-config}} configs/; fi
+
+          echo '---start make---'
+          make ${{github.event.inputs.board}}_defconfig
+          make
+          cp -r /opt/buildroot/output/images /opt/firmware
+
+      - name : Upload buildroot-${{github.event.inputs.branches-tags}}-${{github.event.inputs.board}}
+        uses: actions/upload-artifact@master
+        with:
+          name: buildroot-${{github.event.inputs.branches-tags}}-${{github.event.inputs.board}}
+          path: /opt/firmware

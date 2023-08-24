@@ -122,7 +122,7 @@ jobs:
         run: |
           BUILD_TAG="${{ github.run_id }}-${{ github.run_number }}-${{ github.run_attempt }}"
           echo "${BUILD_TAG}"
-          echo "BUILD_TAG=${BUILD_TAG} >> $GITHUB_ENV
+          echo "BUILD_TAG=${BUILD_TAG}" >> $GITHUB_ENV
 
       - name: Tag build
         run: |

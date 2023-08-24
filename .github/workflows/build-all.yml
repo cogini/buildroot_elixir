@@ -53,18 +53,6 @@ jobs:
           sudo sed -i 's/^# deb-src/deb-src/' /etc/apt/sources.list.d/microsoft-prod.list
           sudo sed -i 's/^# deb-src/deb-src/' /etc/apt/sources.list.d/ubuntu-toolchain-r-ubuntu-test-jammy.list
 
-      - name: Debug apt sources
-        run: |
-          cat /etc/apt/sources.list
-
-      - name: Debug apt sources
-        run: |
-          cat /etc/apt/sources.list.d/microsoft-prod.list
-
-      - name: Debug apt sources
-        run: |
-          cat /etc/apt/sources.list.d/ubuntu-toolchain-r-ubuntu-test-jammy.list
-
       - name: Check out source
         uses: actions/checkout@v3
 

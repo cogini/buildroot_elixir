@@ -42,6 +42,12 @@ jobs:
       - name: Dump event
         run: cat "$GITHUB_EVENT_PATH"
 
+      - name: Enable apt-src
+        run: |
+          sed -i /^# deb-src/deb-src/g /etc/apt/sources.list
+          sed -i /^# deb-src/deb-src/g /etc/apt/sources.list.d/microsoft-prod.list
+          sed -i /^# deb-src/deb-src/g /etc/apt/sources.list.d/ubuntu-toolchain-r-ubuntu-test-jammy.list
+
       - name: Debug apt sources
         run: |
           cat /etc/apt/sources.list

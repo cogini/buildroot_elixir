@@ -44,8 +44,15 @@ jobs:
 
       - name: Debug apt sources
         run: |
-          ls -l /etc/apt
-          ls -l /etc/apt/sources.list.d
+          cat /etc/apt/sources.list
+
+      - name: Debug apt sources
+        run: |
+          cat /etc/apt/sources.list.d/microsoft-prod.list
+
+      - name: Debug apt sources
+        run: |
+          cat /etc/apt/sources.list.d/ubuntu-toolchain-r-ubuntu-test-jammy.list
 
       - name: Cancel previous runs in progress
         uses: styfle/cancel-workflow-action@0.11.0

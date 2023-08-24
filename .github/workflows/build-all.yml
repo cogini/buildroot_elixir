@@ -104,16 +104,10 @@ jobs:
           # make O=/tmp/build BR2_EXTERNAL=${{ github.workspace }} $BUILDROOT_DEFCONFIG
           make
 
-      - name: Copy firmware
-        run: |
-          ls -l /opt/buildroot/output/images
-          cp -r -v /opt/buildroot/output/images /opt/firmware
-
-      # https://github.com/softprops/action-gh-release
-      - name: Release
-        uses: softprops/action-gh-release@v1
-        with:
-          files: /opt/firmware/*
+      # - name: Copy firmware
+      #   run: |
+      #     ls -l /opt/buildroot/output/images
+      #     cp -r -v /opt/buildroot/output/images /opt/firmware
 
       #   # -rwxr-xr-x+ 1 runner docker     51543 Aug 24 02:41 bcm2711-rpi-4-b.dtb
       #   # -rw-rw-rw-+ 1 runner docker  33554432 Aug 24 03:14 boot.vfat
@@ -122,6 +116,14 @@ jobs:
       #   # drwxr-xr-x+ 3 runner docker      4096 Aug 24 02:06 rpi-firmware
       #   # -rw-rw-rw-+ 1 runner docker 159384064 Aug 24 03:14 sdcard.img
       #   # -rw-r--r--+ 1 runner docker   6762552 Aug 24 02:41 zImage
+
+      # https://github.com/softprops/action-gh-release
+      # - name: Release
+      #   uses: softprops/action-gh-release@v1
+      #   with:
+      #     files: /opt/firmware/sdcard.img
+
+      # https://github.com/marketplace/actions/create-release
 
       # - name : Upload buildroot-${{env.BUILDROOT_TAG}}-${{env.BUILDROOT_BOARD}}
       #   uses: actions/upload-artifact@v3

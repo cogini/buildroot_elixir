@@ -40,6 +40,15 @@ jobs:
       - name: Check out source
         uses: actions/checkout@v3
 
+      - name: Retrieve cached buildroot
+        uses: actions/cache@v3
+        with:
+          path: |
+            /opt/buildroot
+          key: buildroot-${{ github.event.inputs.branches-tags }}
+          restore-keys: |
+            buildroot-${{ github.event.inputs.branches-tags }}
+
       - name: Get buildroot source
         run: |
           git clone ${{github.event.inputs.git-address}} /opt/buildroot

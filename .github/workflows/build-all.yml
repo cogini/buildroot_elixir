@@ -90,10 +90,12 @@ jobs:
           git checkout $BUILDROOT_TAG
           git pull origin $BUILDROOT_TAG
 
-          # if [ "x$BUILDROOT_CUSTOM_CONFIG" == 'x' ]; then cp -f /home/runner/work/buildroot-actions/buildroot-actions/configs/${{env.BUILDROOT_CUSTOM_CONFIG}} configs/; fi
+          # if [ "x$BUILDROOT_CUSTOM_CONFIG" == 'x' ]; then cp -f ${{ github.workspace }}/configs/${{env.BUILDROOT_CUSTOM_CONFIG}} configs/; fi
 
           echo '---start make---'
           make $BUILDROOT_DEFCONFIG
+          # make BR2_EXTERNAL=${{ github.workspace }} $BUILDROOT_DEFCONFIG
+          # make O=/tmp/build BR2_EXTERNAL=${{ github.workspace }} $BUILDROOT_DEFCONFIG
           make
           cp -r /opt/buildroot/output/images /opt/firmware
 

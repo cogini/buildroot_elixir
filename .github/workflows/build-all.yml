@@ -58,7 +58,10 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get upgrade
-          sudo apt-get install -y make gcc g++ unzip git bc python device-tree-compiler mtd-utils
+          # sudo apt-get install -y make gcc g++ unzip git bc python2 device-tree-compiler mtd-utils
+          sudo apt install -y sed make binutils gcc g++ bash patch gzip bzip2 perl tar cpio python2 unzip rsync wget libncurses-dev libelf-dev
+          sudo apt install -y build-essential ncurses-base ncurses-bin libncurses5-dev dialog
+          sudo apt build-dep erlang
 
       - name: Bulid
         run: |

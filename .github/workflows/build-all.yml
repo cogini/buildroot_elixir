@@ -107,10 +107,34 @@ jobs:
       - name: Copy firmware
         run: |
           ls -l /opt/buildroot/output/images
-          cp -r /opt/buildroot/output/images /opt/firmware
+          cp -r -v /opt/buildroot/output/images /opt/firmware
 
-      - name : Upload buildroot-${{env.BUILDROOT_TAG}}-${{env.BUILDROOT_BOARD}}
-        uses: actions/upload-artifact@master
+      # https://github.com/softprops/action-gh-release
+      - name: Release
+        uses: softprops/action-gh-release@v1
         with:
-          name: buildroot-${{env.BUILDROOT_TAG}}-${{env.BUILDROOT_BOARD}}
-          path: /opt/firmware
+          files: /opt/firmware/*
+
+      #   # -rwxr-xr-x+ 1 runner docker     51543 Aug 24 02:41 bcm2711-rpi-4-b.dtb
+      #   # -rw-rw-rw-+ 1 runner docker  33554432 Aug 24 03:14 boot.vfat
+      #   # -rw-rw-rw-+ 1 runner docker 125829120 Aug 24 03:14 rootfs.ext2
+      #   # lrwxrwxrwx  1 runner docker        11 Aug 24 03:14 rootfs.ext4 -> rootfs.ext2
+      #   # drwxr-xr-x+ 3 runner docker      4096 Aug 24 02:06 rpi-firmware
+      #   # -rw-rw-rw-+ 1 runner docker 159384064 Aug 24 03:14 sdcard.img
+      #   # -rw-r--r--+ 1 runner docker   6762552 Aug 24 02:41 zImage
+
+      # - name : Upload buildroot-${{env.BUILDROOT_TAG}}-${{env.BUILDROOT_BOARD}}
+      #   uses: actions/upload-artifact@v3
+      #   with:
+      #     name: buildroot-${{env.BUILDROOT_TAG}}-${{env.BUILDROOT_BOARD}}
+      #     path: /opt/firmware
+
+      # - name: Create release firmware
+      #   uses: actions/upload-release-asset@v1
+      #   env:
+      #     GITHUB_TOKEN: ${{ github.token }}
+      #   with:
+      #     upload_url: ${{ steps.create_release.outputs.upload_url }}
+      #     asset_path: ./bin/azblogfilter.linux-amd64.tar.gz
+      #     asset_name: azblogfilter.linux-amd64.tar.gz
+      #     asset_content_type: application/gzip

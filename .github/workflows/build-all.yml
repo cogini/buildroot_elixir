@@ -88,7 +88,7 @@ jobs:
           # sudo apt-get install -y make gcc g++ unzip git bc python2 device-tree-compiler mtd-utils
           sudo apt-get install -y sed make binutils gcc g++ bash patch gzip bzip2 perl tar cpio python2 unzip rsync wget libncurses-dev libelf-dev
           sudo apt-get install -y build-essential ncurses-base ncurses-bin libncurses5-dev dialog
-          # sudo apt-get build-dep erlang
+          sudo apt-get build-dep erlang
 
       - name: Bulid
         run: |

@@ -72,8 +72,7 @@ jobs:
 
       - name: Get buildroot source
         run: |
-          git clone $BUILDROOT_GIT_REPO /opt/buildroot
-          cd /opt/buildroot
+          [ -d /opt/buildroot ] || git clone $BUILDROOT_GIT_REPO /opt/buildroot
 
       - name: Install packages
         run: |

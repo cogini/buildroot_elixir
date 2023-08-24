@@ -33,6 +33,11 @@ jobs:
       - name: Dump event
         run: cat "$GITHUB_EVENT_PATH"
 
+      - name: Debug apt sources
+        run: |
+          ls -l /etc/apt
+          ls -l /etc/apt/sources.list.d
+
       - name: Cancel previous runs in progress
         uses: styfle/cancel-workflow-action@0.11.0
         with:
@@ -59,9 +64,11 @@ jobs:
           sudo apt-get update
           sudo apt-get upgrade
           # sudo apt-get install -y make gcc g++ unzip git bc python2 device-tree-compiler mtd-utils
-          sudo apt install -y sed make binutils gcc g++ bash patch gzip bzip2 perl tar cpio python2 unzip rsync wget libncurses-dev libelf-dev
-          sudo apt install -y build-essential ncurses-base ncurses-bin libncurses5-dev dialog
-          sudo apt build-dep erlang
+          sudo apt-get install -y sed make binutils gcc g++ bash patch gzip bzip2 perl tar cpio python2 unzip rsync wget libncurses-dev libelf-dev
+          sudo apt-get install -y build-essential ncurses-base ncurses-bin libncurses5-dev dialog
+          ls -l /etc/apt
+          ls -l /etc/apt/sources.list.d
+          # sudo apt-get build-dep erlang
 
       - name: Bulid
         run: |

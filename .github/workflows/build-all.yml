@@ -42,7 +42,12 @@ jobs:
       - name: Dump event
         run: cat "$GITHUB_EVENT_PATH"
 
-      - name: Enable apt-src
+      - name: Cancel previous runs in progress
+        uses: styfle/cancel-workflow-action@0.11.0
+        with:
+          access_token: ${{ github.token }}
+
+      - name: Enable apt-src sources
         run: |
           sudo sed -i 's/^# deb-src/deb-src/' /etc/apt/sources.list
           sudo sed -i 's/^# deb-src/deb-src/' /etc/apt/sources.list.d/microsoft-prod.list
@@ -60,10 +65,6 @@ jobs:
         run: |
           cat /etc/apt/sources.list.d/ubuntu-toolchain-r-ubuntu-test-jammy.list
 
-      - name: Cancel previous runs in progress
-        uses: styfle/cancel-workflow-action@0.11.0
-        with:
-          access_token: ${{ github.token }}
       - name: Check out source
         uses: actions/checkout@v3
 

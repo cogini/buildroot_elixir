@@ -68,7 +68,7 @@ jobs:
       - name: Check out source
         uses: actions/checkout@v3
 
-      - name: Retrieve cached buildroot
+      - name: Restore buildroot cache
         uses: actions/cache@v3
         with:
           path: |
@@ -81,7 +81,7 @@ jobs:
         run: |
           [ -d /opt/buildroot ] || git clone $BUILDROOT_GIT_REPO /opt/buildroot
 
-      - name: Install packages
+      - name: Install build deps
         run: |
           sudo apt-get update
           # sudo apt-get upgrade

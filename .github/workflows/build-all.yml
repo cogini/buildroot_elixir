@@ -97,6 +97,10 @@ jobs:
           # make BR2_EXTERNAL=${{ github.workspace }} $BUILDROOT_DEFCONFIG
           # make O=/tmp/build BR2_EXTERNAL=${{ github.workspace }} $BUILDROOT_DEFCONFIG
           make
+
+      - name: Copy firmware
+        run: |
+          ls -l /opt/buildroot/output/images
           cp -r /opt/buildroot/output/images /opt/firmware
 
       - name : Upload buildroot-${{env.BUILDROOT_TAG}}-${{env.BUILDROOT_BOARD}}

@@ -4,7 +4,7 @@ services:
   buildroot-dev:
     image: "${REGISTRY:-docker.io/}${IMAGE_OWNER}/${IMAGE_NAME}:buildroot-dev"
     build:
-      dockerfile: ${DOCKER_FILE:-buildroot/Dockerfile}
+      dockerfile: ${DOCKER_FILE:-Dockerfile}
       target: buildroot-dev
       args:
         BUILDKIT_INLINE_CACHE: "1"

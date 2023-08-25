@@ -1,0 +1,41 @@
+---
+version: "3.9"
+services:
+  buildroot-dev:
+    image: "${REGISTRY:-docker.io/}${IMAGE_OWNER}/${IMAGE_NAME}:buildroot-dev"
+    build:
+      dockerfile: ${DOCKER_FILE:-buildroot/Dockerfile}
+      target: buildroot-dev
+      args:
+        BUILDKIT_INLINE_CACHE: "1"
+        REGISTRY: ${REGISTRY:-docker.io/}
+        PUBLIC_REGISTRY: ${REGISTRY:-docker.io/}
+      context: .
+      # secrets:
+      #   - oban_license_key
+      #   - oban_key_fingerprint
+      #   - access_token
+    # VSCode devcontainer needs something running
+    # command: /bin/sh -c "while sleep 1000; do :; done"
+    environment:
+      - DATABASE_DB
+      - DATABASE_HOST=${DATABASE_HOST:-postgres}
+      - DATABASE_URL
+      - SECRET_KEY_BASE=${SECRET_KEY_BASE:-0cSFk8v5IsZIIGCjY+X66l5xULUl/2mczI4Eqf7slpyns5nBkhegDn6YH9th+5D2}
+    ports:
+      - '4000:4000'
+    stdin_open: true
+    tty: true
+    cap_add:
+      - CAP_SYS_ADMIN
+    volumes:
+      - "./buildroot:/buildroot:delegated"
+      - "./output:/tmp/output:delegated"
+      - buildroot_src:/opt/buildroot
+      - buildroot_output:/opt/buildroot_output
+
+volumes:
+  buildroot_src:
+    driver: local
+  buildroot_output:
+    driver: local

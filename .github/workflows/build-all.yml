@@ -48,11 +48,11 @@ jobs:
           access_token: ${{ github.token }}
 
       # Needed for apt-get build-dep erlang
-      - name: Enable apt-src sources
-        run: |
-          sudo sed -i 's/^# deb-src/deb-src/' /etc/apt/sources.list
-          sudo sed -i 's/^# deb-src/deb-src/' /etc/apt/sources.list.d/microsoft-prod.list
-          sudo sed -i 's/^# deb-src/deb-src/' /etc/apt/sources.list.d/ubuntu-toolchain-r-ubuntu-test-jammy.list
+      # - name: Enable apt-src sources
+      #   run: |
+      #     sudo sed -i 's/^# deb-src/deb-src/' /etc/apt/sources.list
+      #     sudo sed -i 's/^# deb-src/deb-src/' /etc/apt/sources.list.d/microsoft-prod.list
+      #     sudo sed -i 's/^# deb-src/deb-src/' /etc/apt/sources.list.d/ubuntu-toolchain-r-ubuntu-test-jammy.list
 
       - name: Check out source
         uses: actions/checkout@v3
@@ -77,9 +77,9 @@ jobs:
           # sudo apt-get install -y make gcc g++ unzip git device-tree-compiler mtd-utils
           # https://buildroot.org/downloads/manual/manual.html#requirement
           sudo apt-get install -y sed make binutils build-essential diffutils gcc g++ bash patch gzip bzip2 perl tar cpio unzip rsync bc findutils wget git python2
-          sudo apt-get install -y ncurses-base ncurses-bin libncurses5-dev dialog
-          echo "--- erlang"
-          sudo apt-get build-dep erlang
+          # sudo apt-get install -y ncurses-base ncurses-bin libncurses5-dev dialog
+          # echo "--- erlang"
+          # sudo apt-get build-dep erlang
 
       - name: Bulid
         run: |

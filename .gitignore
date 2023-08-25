@@ -1,0 +1,24 @@
+# Output directory shared with dev container for e.g. firmware
+/output/
+
+/.env
+/.envrc
+/.gitconfig
+/.gnupg/
+/.hex/
+/.mix/
+/.ssh/
+/.vscode-server/
+/.vscode/
+/tmp/
+
+# Editor temp files
+*.swp
+
+# OS files when mounting dev container
+/.bash_history
+/.dotnet
+/.ssh
+
+# macOS junk
+.DS_Store

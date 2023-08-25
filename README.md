@@ -1,5 +1,10 @@
 # buildroot_elixir
 
+This is an example of using the [Buildroot](https://buildroot.org/) embedded
+Linux build system to run an Elixir app.
+
+It has support for building in Docker and GitHub Actions CI.
+
 ## Running in Docker
 
 Create an `.env` file:

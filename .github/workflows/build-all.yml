@@ -74,9 +74,11 @@ jobs:
         run: |
           sudo apt-get update
           # sudo apt-get upgrade
-          # sudo apt-get install -y make gcc g++ unzip git bc python2 device-tree-compiler mtd-utils
-          sudo apt-get install -y sed make binutils gcc g++ bash patch gzip bzip2 perl tar cpio python2 unzip rsync wget libncurses-dev libelf-dev
-          sudo apt-get install -y build-essential ncurses-base ncurses-bin libncurses5-dev dialog
+          # sudo apt-get install -y make gcc g++ unzip git device-tree-compiler mtd-utils
+          # https://buildroot.org/downloads/manual/manual.html#requirement
+          sudo apt-get install -y sed make binutils build-essential diffutils gcc g++ bash patch gzip bzip2 perl tar cpio unzip rsync bc findutils wget git python2
+          sudo apt-get install -y ncurses-base ncurses-bin libncurses5-dev dialog
+          echo "--- erlang"
           sudo apt-get build-dep erlang
 
       - name: Bulid

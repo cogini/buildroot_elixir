@@ -89,10 +89,9 @@ jobs:
 
           # if [ "x$BUILDROOT_CUSTOM_CONFIG" == 'x' ]; then cp -f ${{ github.workspace }}/configs/${{env.BUILDROOT_CUSTOM_CONFIG}} configs/; fi
 
-          echo '---start make---'
           make $BUILDROOT_DEFCONFIG
-          # make BR2_EXTERNAL="${{ github.workspace }}" $BUILDROOT_DEFCONFIG
-          # make O=/tmp/build BR2_EXTERNAL="${{ github.workspace }}" $BUILDROOT_DEFCONFIG
+          make BR2_EXTERNAL="${{ github.workspace }}/buildroot" $BUILDROOT_DEFCONFIG
+          # make O=/tmp/build BR2_EXTERNAL="${{ github.workspace }}/buildroot" $BUILDROOT_DEFCONFIG
           make
 
       # - name: Copy firmware

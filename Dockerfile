@@ -133,10 +133,11 @@ FROM ${BUILD_BASE_IMAGE_NAME}:${BUILD_BASE_IMAGE_TAG} AS build-os-deps
             g++ \
             gcc \
             git \
+            gpg \
             gzip \
             # libdevmapper-dev \
             # libfdt-dev \
-            # libncurses5-dev \
+            libncurses5-dev \
             # libssl-dev \
             # libsystemd-dev \
             locales \
@@ -149,10 +150,10 @@ FROM ${BUILD_BASE_IMAGE_NAME}:${BUILD_BASE_IMAGE_TAG} AS build-os-deps
             sed \
             tar \
             unzip \
-            vim \ 
+            vim \
             wget \
             whois \
-        && \ 
+        && \
         # Generate locales specified in /etc/locale.gen
         locale-gen && \
         truncate -s 0 /var/log/apt/* && \

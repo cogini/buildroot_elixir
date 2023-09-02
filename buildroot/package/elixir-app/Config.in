@@ -1,0 +1,10 @@
+config BR2_PACKAGE_ELIXIR_APP
+    bool "elixir-app"
+    select BR2_PACKAGE_ERLANG
+    help
+      Elixir app.
+
+      http://www.cogini.com/
+
+# comment "elixir-app needs erlang"
+#     depends on !BR2_PACKAGE_ERLANG
